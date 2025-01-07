@@ -14,7 +14,7 @@ datasource db {
 }
 
 model user {
-  id          Int    @id @default(dbgenerated())
+  id          String @id @default(uuid())
   email       String @unique @db.VarChar(255)
   password    String @db.VarChar(100)
   name        String @db.VarChar(100)
@@ -28,10 +28,10 @@ model user {
 }
 
 model user_chat_room_subscribe {
-  user_id Int
-  user    user @relation(fields: [user_id], references: [id])
+  user_id String
+  user    user   @relation(fields: [user_id], references: [id])
 
-  chat_room_id Int
+  chat_room_id String
   chat_room    chat_room @relation(fields: [chat_room_id], references: [id])
 
   created_at DateTime @default(now())
@@ -40,17 +40,17 @@ model user_chat_room_subscribe {
 }
 
 model message {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(uuid())
   content String @db.Text
 
-  sent_by_user_id Int
-  user            user @relation(fields: [sent_by_user_id], references: [id])
+  sent_by_user_id String
+  user            user   @relation(fields: [sent_by_user_id], references: [id])
 
   created_at DateTime @default(now())
 }
 
 model chat_room {
-  id                       Int                        @id @default(autoincrement())
+  id                       String                     @id @default(uuid())
   title                    String                     @db.VarChar(150)
   created_at               DateTime                   @default(now())
   user_chat_room_subscribe user_chat_room_subscribe[]
