@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `privilege` TINYINT NOT NULL DEFAULT 2;
