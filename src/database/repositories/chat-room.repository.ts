@@ -12,8 +12,22 @@ export class ChatRoomRepository {
     });
   }
 
+  async findMany({where, skip,take}:{where?: Prisma.chat_roomWhereInput, skip:number, take:number}): Promise<chat_room[]> {
+    return this.prisma.chat_room.findMany({
+      where,
+      skip,
+      take
+    });
+  }
+
   async findOne(where: Prisma.chat_roomWhereInput): Promise<chat_room> {
     return this.prisma.chat_room.findFirst({
+      where,
+    });
+  }
+
+  async total(where?: Prisma.chat_roomWhereInput): Promise<number> {
+    return this.prisma.chat_room.count({
       where,
     });
   }

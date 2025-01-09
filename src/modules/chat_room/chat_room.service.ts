@@ -9,6 +9,8 @@ import errorMessages from 'src/utils/errorMessages';
 import CreateChatRoom from './dto/create-chat-room.dto';
 import { UserRepository } from 'src/database/repositories/user.repository';
 import userPvsCommon from 'src/utils/common/user-pvs.common';
+import FindManyChatRoomDto from './dto/find-many.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ChatRoomService {
@@ -57,5 +59,21 @@ export class ChatRoomService {
     return await this.chatRoomRepository.create({
       title,
     });
+  }
+
+  async findAll({search, skip, take}: FindManyChatRoomDto) {
+
+    let where: Prisma.chat_roomWhereInput = {}
+
+    if(search){
+      where = {...where, title: {contains: search}}
+    }
+
+    const [total, records] = await Promise.all([
+      this.chatRoomRepository.total(where),
+      this.chatRoomRepository.findMany({where,skip,take}),
+    ]);
+
+    return {total, records}
   }
 }
