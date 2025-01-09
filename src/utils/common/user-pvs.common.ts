@@ -1,4 +1,4 @@
 export default {
-    admin: 1,
-    common: 2,
-}
+  admin: 1,
+  common: 2,
+};
