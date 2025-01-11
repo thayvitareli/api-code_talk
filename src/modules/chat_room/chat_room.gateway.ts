@@ -41,9 +41,10 @@ export class ChatRoomGateway implements OnGatewayConnection {
 
   @SubscribeMessage('sendMessage')
   async handleMessage(
-    @MessageBody() data: { message: string; room_id: string },
+    @MessageBody() data: { message: string; roomId: string },
     @ConnectedSocket() client: Socket,
   ) {
+    console.log(data)
     const token: any = client.handshake.query.access_token;
 
     const { userId } = verify(token, process.env.JWT_SECRET) as {
@@ -54,13 +55,13 @@ export class ChatRoomGateway implements OnGatewayConnection {
       const newMessage = await this.messageRepository
         .create({
           user: { connect: { id: userId } },
-          chat_room: { connect: { id: data.room_id } },
+          chat_room: { connect: { id: data.roomId } },
           content: data.message,
         })
         .catch((error) => console.log(error));
 
       try {
-        this.server.to(data.room_id.toString()).emit('message', newMessage);
+        this.server.to(data.roomId.toString()).emit('message', newMessage);
       } catch (error) {
         console.log(error);
       }
