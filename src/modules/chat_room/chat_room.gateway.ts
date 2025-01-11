@@ -44,7 +44,6 @@ export class ChatRoomGateway implements OnGatewayConnection {
     @MessageBody() data: { message: string; roomId: string },
     @ConnectedSocket() client: Socket,
   ) {
-    console.log(data)
     const token: any = client.handshake.query.access_token;
 
     const { userId } = verify(token, process.env.JWT_SECRET) as {

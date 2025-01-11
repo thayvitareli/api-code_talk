@@ -12,9 +12,10 @@ export class MessageRepository {
     });
   }
 
-  async findMany(where?: Prisma.messageWhereInput): Promise<message[]> {
+  async findMany({where, select}:{where?: Prisma.messageWhereInput, select: Prisma.messageSelect}): Promise<message[]> {
     return this.prisma.message.findMany({
       where,
+      select
     });
   }
 }
