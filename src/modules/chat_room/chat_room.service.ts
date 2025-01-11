@@ -61,19 +61,71 @@ export class ChatRoomService {
     });
   }
 
-  async findAll({search, skip, take}: FindManyChatRoomDto) {
+  async findAll({ search, skip, take }: FindManyChatRoomDto, userId: string) {
+    const user = await this.userRepository.findOne({ id: userId });
 
-    let where: Prisma.chat_roomWhereInput = {}
+    let where: Prisma.chat_roomWhereInput = {};
+    let select: Prisma.chat_roomSelect = {
+      id: true,
+      title: true,
+      user_chat_room_subscribe: true,
+      created_at: true,
+    };
 
-    if(search){
-      where = {...where, title: {contains: search}}
+    if (search) {
+      where = { ...where, title: { contains: search } };
+    }
+
+    if (user?.privilege != userPvsCommon.admin) {
+      where = {
+        ...where,
+        user_chat_room_subscribe: {
+          every: {
+            user_id: {
+              not: userId,
+            },
+          },
+        },
+      };
     }
 
     const [total, records] = await Promise.all([
       this.chatRoomRepository.total(where),
-      this.chatRoomRepository.findMany({where,skip,take}),
+      (
+        await this.chatRoomRepository.findMany({ where, skip, take, select })
+      ).map((room) => {
+        //@ts-ignore
+        return {
+          ...room,
+          totalSubscribers: room.user_chat_room_subscribe?.length,
+        };
+      }),
     ]);
 
-    return {total, records}
+    return { total, records };
+  }
+
+  async listSubscriberRooms(
+    { search, skip, take }: FindManyChatRoomDto,
+    userId: string,
+  ) {
+    let where: Prisma.chat_roomWhereInput = {
+      user_chat_room_subscribe: {
+        every: {
+          user_id: userId,
+        },
+      },
+    };
+
+    if (search) {
+      where = { ...where, title: { contains: search } };
+    }
+
+    const [total, records] = await Promise.all([
+      this.chatRoomRepository.total(where),
+      this.chatRoomRepository.findMany({ where, skip, take }),
+    ]);
+
+    return { total, records };
   }
 }

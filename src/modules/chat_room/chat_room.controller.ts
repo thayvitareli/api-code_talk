@@ -19,9 +19,13 @@ export class ChatRoomController {
     return this.chatRoomService.create(body, req.user.userId);
   }
 
-  @Public()
   @Get()
-  List(@Query() findMany: FindManyChatRoomDto) {
-    return this.chatRoomService.findAll(findMany);
+  List(@Query() findMany: FindManyChatRoomDto, @Req() req) {
+    return this.chatRoomService.findAll(findMany, req.user?.userId);
+  }
+
+  @Get('/user')
+  ListSubscriberRooms(@Query() findMany: FindManyChatRoomDto, @Req() req) {
+    return this.chatRoomService.findAll(findMany, req.user?.userId);
   }
 }

@@ -12,11 +12,22 @@ export class ChatRoomRepository {
     });
   }
 
-  async findMany({where, skip,take}:{where?: Prisma.chat_roomWhereInput, skip:number, take:number}): Promise<chat_room[]> {
+  async findMany({
+    where,
+    skip,
+    take,
+    select,
+  }: {
+    where?: Prisma.chat_roomWhereInput;
+    skip: number;
+    take: number;
+    select?: Prisma.chat_roomSelect;
+  }): Promise<chat_room[]> {
     return this.prisma.chat_room.findMany({
       where,
       skip,
-      take
+      take,
+      select,
     });
   }
 

@@ -7,6 +7,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ConfigModule } from '@nestjs/config';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   controllers: [AuthController],
@@ -21,7 +22,7 @@ import { ConfigModule } from '@nestjs/config';
       signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

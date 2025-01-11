@@ -3,12 +3,12 @@ import { Transform } from 'class-transformer';
 
 export class FindManySharedDto {
   @IsOptional()
-  @IsNumber()
   @Transform(({ value }) => (value ? +value : 0))
+  @IsNumber()
   skip?: number;
 
   @IsOptional()
-  @IsNumber()
   @Transform(({ value }) => (value ? +value : 10))
+  @IsNumber()
   take?: number;
 }
