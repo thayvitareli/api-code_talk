@@ -11,6 +11,7 @@ import { UserRepository } from 'src/database/repositories/user.repository';
 import userPvsCommon from 'src/utils/common/user-pvs.common';
 import FindManyChatRoomDto from './dto/find-many.dto';
 import { Prisma } from '@prisma/client';
+import { MessageRepository } from 'src/database/repositories/message.repository';
 
 @Injectable()
 export class ChatRoomService {
@@ -18,6 +19,7 @@ export class ChatRoomService {
     private readonly chatRoomRepository: ChatRoomRepository,
     private readonly subscribeChatRoomRepository: SubscribeChatRoomRepository,
     private readonly userRepository: UserRepository,
+    private readonly messageRepository: MessageRepository
   ) {}
 
   async subscribe(chat_room_id: string, userId: string) {
@@ -94,9 +96,9 @@ export class ChatRoomService {
       (
         await this.chatRoomRepository.findMany({ where, skip, take, select })
       ).map((room) => {
-        //@ts-ignore
         return {
           ...room,
+          //@ts-ignore
           totalSubscribers: room.user_chat_room_subscribe?.length,
         };
       }),
@@ -127,5 +129,19 @@ export class ChatRoomService {
     ]);
 
     return { total, records };
+  }
+
+  async getMessages(roomId:string){
+      const room = await this.chatRoomRepository.findOne({
+        id: roomId
+      })
+
+      if(!room) throw new NotFoundException(errorMessages.roomNotFound)
+
+      return await this.messageRepository.findMany({
+        chat_room_id: roomId
+      })
+
+      
   }
 }

@@ -28,4 +28,9 @@ export class ChatRoomController {
   ListSubscriberRooms(@Query() findMany: FindManyChatRoomDto, @Req() req) {
     return this.chatRoomService.findAll(findMany, req.user?.userId);
   }
+
+  @Get(':id/messages')
+  getMessages(@Param() { id }: { id: string }) {
+    return this.chatRoomService.getMessages(id);
+  }
 }
