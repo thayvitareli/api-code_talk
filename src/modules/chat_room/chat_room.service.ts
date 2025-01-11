@@ -144,4 +144,14 @@ export class ChatRoomService {
 
       
   }
+
+  async findOne(chat_room_id: string) {
+    const room = await this.chatRoomRepository.findOne({ id: chat_room_id });
+
+    if (!room) {
+      throw new NotFoundException(errorMessages.roomNotFound);
+    }
+
+    return room;
+  }
 }
