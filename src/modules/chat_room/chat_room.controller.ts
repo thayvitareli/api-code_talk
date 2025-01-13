@@ -40,5 +40,10 @@ export class ChatRoomController {
   subscribe(@Param() { id }: { id: string }, @Req() req) {
     return this.chatRoomService.subscribe(id, req.user.userId);
   }
+
+  @Post(':id/unsubscribe')
+  unsubscribe(@Param() { id }: { id: string }, @Req() req) {
+    return this.chatRoomService.unSubscribe(id, req.user.userId);
+  }
   
 }

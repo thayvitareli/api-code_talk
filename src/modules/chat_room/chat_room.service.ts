@@ -113,7 +113,7 @@ export class ChatRoomService {
   ) {
     let where: Prisma.chat_roomWhereInput = {
       user_chat_room_subscribe: {
-        every: {
+        some: {
           user_id: userId,
         },
       },
@@ -170,3 +170,4 @@ export class ChatRoomService {
     return room;
   }
 }
+
