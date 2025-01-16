@@ -42,9 +42,6 @@ export class ChatRoomService {
       throw new NotFoundException(errorMessages.roomNotFound);
     }
 
-    console.log(room)
-    console.log(userId)
-
     await this.subscribeChatRoomRepository.delete({
       chat_room_id_user_id: {
         chat_room_id: chat_room_id,
