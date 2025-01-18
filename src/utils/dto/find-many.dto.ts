@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class FindManySharedDto {
@@ -11,4 +11,9 @@ export class FindManySharedDto {
   @Transform(({ value }) => (value ? +value : 10))
   @IsNumber()
   take?: number;
+
+
+  @IsOptional()
+  @IsString()
+  search?: string;
 }

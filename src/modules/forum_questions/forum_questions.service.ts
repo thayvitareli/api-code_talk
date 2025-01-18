@@ -5,6 +5,7 @@ import { ForumQuestionRepository } from 'src/database/repositories/forum-questio
 import errorMessages from 'src/utils/errorMessages';
 import { CommentRepository } from 'src/database/repositories/comments.repository';
 import { Prisma } from '@prisma/client';
+import { FindManySharedDto } from 'src/utils/dto/find-many.dto';
 
 @Injectable()
 export class ForumQuestionsService {
@@ -62,6 +63,37 @@ export class ForumQuestionsService {
     if(!forum) throw new NotFoundException(errorMessages.forumNotFount)
 
     return forum;
+  }
+
+  async findMany({skip, take, search}: FindManySharedDto){
+    let where: Prisma.forum_questionsWhereInput = {}
+
+    const select: Prisma.forum_questionsSelect = {
+      id: true,
+      title:true,
+      content: true,
+      user: {
+        select: {
+          name:true,
+        }
+      },
+      comments: true,
+     
+    }
+
+    if(search) where = {
+      OR: [
+        {title: {contains: search}},
+        {content: {contains: search}}
+      ]
+     }
+
+    const [total, records]= await Promise.all([
+      this.forumQuestionRepository.total(where),
+      this.forumQuestionRepository.findMany({ where, skip, take, select}),
+    ])
+
+    return {total, records}
   }
 
   
