@@ -26,6 +26,8 @@ model user {
 
   user_chat_room_subscribe user_chat_room_subscribe[]
   message                  message[]
+  questions                questions[]
+  comments                 comments[]
 }
 
 model user_chat_room_subscribe {
@@ -59,4 +61,47 @@ model chat_room {
   created_at               DateTime                   @default(now())
   user_chat_room_subscribe user_chat_room_subscribe[]
   message                  message[]
+}
+
+model questions {
+  id      String @id @default(uuid())
+  title   String @db.VarChar(255)
+  content String @db.Text
+
+  user_id                    String
+  user                       user                         @relation(fields: [user_id], references: [id])
+  created_at                 DateTime                     @default(now())
+  comments                   comments[]
+  question_technologies_tags question_technologies_tags[]
+}
+
+model comments {
+  id String @id @default(uuid())
+
+  content String @db.Text
+
+  question_id String
+  question    questions @relation(fields: [question_id], references: [id])
+
+  user_id    String
+  user       user     @relation(fields: [user_id], references: [id])
+  created_at DateTime @default(now())
+}
+
+model question_technologies_tags {
+  question_id String
+  question    questions @relation(fields: [question_id], references: [id])
+
+  technologies_tag_id String
+  technologies_tag    technologies_tag @relation(fields: [technologies_tag_id], references: [id])
+
+  @@id([question_id, technologies_tag_id])
+}
+
+model technologies_tag {
+  id   String @id @default(uuid())
+  name String @db.VarChar(255)
+
+  created_at                 DateTime                     @default(now())
+  question_technologies_tags question_technologies_tags[]
 }
