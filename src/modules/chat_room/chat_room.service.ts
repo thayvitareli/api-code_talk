@@ -131,7 +131,7 @@ export class ChatRoomService {
     return { total, records };
   }
 
-  async getMessages(roomId:string){
+  async getMessages(roomId:string, userId: string){
       const select: Prisma.messageSelect = {
         id:true,
         chat_room_id:true,
@@ -145,7 +145,13 @@ export class ChatRoomService {
         created_at:true,
       }
       const room = await this.chatRoomRepository.findOne({
-        id: roomId
+        id: roomId,
+        user_chat_room_subscribe: {
+          some: {
+            user_id: userId,
+            chat_room_id: roomId
+          }
+        }
       },)
 
       if(!room) throw new NotFoundException(errorMessages.roomNotFound)

@@ -1,8 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { ChatRoomService } from './chat_room.service';
 import CreateChatRoom from './dto/create-chat-room.dto';
-import { Public } from 'src/utils/decorators/public.decorator';
-import FindManyChatRoom from './dto/find-many.dto';
+
 import FindManyChatRoomDto from './dto/find-many.dto';
 
 @Controller('chat-room')
@@ -31,8 +30,8 @@ export class ChatRoomController {
   }
 
   @Get(':id/messages')
-  getMessages(@Param() { id }: { id: string }) {
-    return this.chatRoomService.getMessages(id);
+  getMessages(@Param() { id }: { id: string }, @Req() req) {
+    return this.chatRoomService.getMessages(id, req.user?.userId);
   }
 
    
