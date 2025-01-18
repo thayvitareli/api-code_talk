@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ChatRoomRepository } from 'src/database/repositories/chat-room.repository';
-import { SubscribeChatRoomRepository } from 'src/database/repositories/subscribe-chat-room.repository';
+import {  UserChatRoomRepository } from 'src/database/repositories/subscribe-chat-room.repository';
 import errorMessages from 'src/utils/errorMessages';
 import CreateChatRoom from './dto/create-chat-room.dto';
 import { UserRepository } from 'src/database/repositories/user.repository';
@@ -17,7 +17,7 @@ import { MessageRepository } from 'src/database/repositories/message.repository'
 export class ChatRoomService {
   constructor(
     private readonly chatRoomRepository: ChatRoomRepository,
-    private readonly subscribeChatRoomRepository: SubscribeChatRoomRepository,
+    private readonly userChatRoomRepository: UserChatRoomRepository,
     private readonly userRepository: UserRepository,
     private readonly messageRepository: MessageRepository
   ) {}
@@ -29,7 +29,7 @@ export class ChatRoomService {
       throw new NotFoundException(errorMessages.roomNotFound);
     }
 
-    return this.subscribeChatRoomRepository.create({
+    return this.userChatRoomRepository.create({
       chat_room: { connect: { id: chat_room_id } },
       user: { connect: { id: userId } },
     });
@@ -42,7 +42,7 @@ export class ChatRoomService {
       throw new NotFoundException(errorMessages.roomNotFound);
     }
 
-    await this.subscribeChatRoomRepository.delete({
+    await this.userChatRoomRepository.delete({
       chat_room_id_user_id: {
         chat_room_id: chat_room_id,
         user_id: userId,
@@ -66,11 +66,11 @@ export class ChatRoomService {
   async findAll({ search, skip, take }: FindManyChatRoomDto, userId: string) {
     const user = await this.userRepository.findOne({ id: userId });
 
-    let where: Prisma.chat_roomWhereInput = {};
-    let select: Prisma.chat_roomSelect = {
+    let where: Prisma.chat_roomsWhereInput = {};
+    let select: Prisma.chat_roomsSelect = {
       id: true,
       title: true,
-      user_chat_room_subscribe: true,
+      users_chat_rooms: true,
       created_at: true,
     };
 
@@ -81,7 +81,7 @@ export class ChatRoomService {
     if (user?.privilege != userPvsCommon.admin) {
       where = {
         ...where,
-        user_chat_room_subscribe: {
+        users_chat_rooms: {
           every: {
             user_id: {
               not: userId,
@@ -111,8 +111,8 @@ export class ChatRoomService {
     { search, skip, take }: FindManyChatRoomDto,
     userId: string,
   ) {
-    let where: Prisma.chat_roomWhereInput = {
-      user_chat_room_subscribe: {
+    let where: Prisma.chat_roomsWhereInput = {
+      users_chat_rooms: {
         some: {
           user_id: userId,
         },
@@ -132,7 +132,7 @@ export class ChatRoomService {
   }
 
   async getMessages(roomId:string, userId: string){
-      const select: Prisma.messageSelect = {
+      const select: Prisma.messagesSelect = {
         id:true,
         chat_room_id:true,
         content:true,
@@ -146,7 +146,7 @@ export class ChatRoomService {
       }
       const room = await this.chatRoomRepository.findOne({
         id: roomId,
-        user_chat_room_subscribe: {
+        users_chat_rooms: {
           some: {
             user_id: userId,
             chat_room_id: roomId

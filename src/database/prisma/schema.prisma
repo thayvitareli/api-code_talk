@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model users {
   id          String @id @default(uuid())
   email       String @unique @db.VarChar(255)
   password    String @db.VarChar(100)
@@ -24,52 +24,52 @@ model user {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user_chat_room_subscribe user_chat_room_subscribe[]
-  message                  message[]
-  questions                questions[]
-  comments                 comments[]
+  users_chat_rooms users_chat_rooms[]
+  message          messages[]
+  forum_questions  forum_questions[]
+  comments         comments[]
 }
 
-model user_chat_room_subscribe {
+model users_chat_rooms {
   user_id String
-  user    user   @relation(fields: [user_id], references: [id])
+  user    users  @relation(fields: [user_id], references: [id])
 
   chat_room_id String
-  chat_room    chat_room @relation(fields: [chat_room_id], references: [id])
+  chat_room    chat_rooms @relation(fields: [chat_room_id], references: [id])
 
   created_at DateTime @default(now())
 
   @@id([chat_room_id, user_id])
 }
 
-model message {
+model messages {
   id      String @id @default(uuid())
   content String @db.Text
 
   sent_by_user_id String
-  user            user   @relation(fields: [sent_by_user_id], references: [id])
+  user            users  @relation(fields: [sent_by_user_id], references: [id])
 
   chat_room_id String
-  chat_room    chat_room @relation(fields: [chat_room_id], references: [id])
+  chat_room    chat_rooms @relation(fields: [chat_room_id], references: [id])
 
   created_at DateTime @default(now())
 }
 
-model chat_room {
-  id                       String                     @id @default(uuid())
-  title                    String                     @db.VarChar(150)
-  created_at               DateTime                   @default(now())
-  user_chat_room_subscribe user_chat_room_subscribe[]
-  message                  message[]
+model chat_rooms {
+  id               String             @id @default(uuid())
+  title            String             @db.VarChar(150)
+  created_at       DateTime           @default(now())
+  users_chat_rooms users_chat_rooms[]
+  message          messages[]
 }
 
-model questions {
+model forum_questions {
   id      String @id @default(uuid())
   title   String @db.VarChar(255)
   content String @db.Text
 
   user_id                    String
-  user                       user                         @relation(fields: [user_id], references: [id])
+  user                       users                        @relation(fields: [user_id], references: [id])
   created_at                 DateTime                     @default(now())
   comments                   comments[]
   question_technologies_tags question_technologies_tags[]
@@ -80,22 +80,22 @@ model comments {
 
   content String @db.Text
 
-  question_id String
-  question    questions @relation(fields: [question_id], references: [id])
+  forum_question_id String
+  forum_question    forum_questions @relation(fields: [forum_question_id], references: [id])
 
   user_id    String
-  user       user     @relation(fields: [user_id], references: [id])
+  user       users    @relation(fields: [user_id], references: [id])
   created_at DateTime @default(now())
 }
 
 model question_technologies_tags {
-  question_id String
-  question    questions @relation(fields: [question_id], references: [id])
+  forum_question_id String
+  forum_question    forum_questions @relation(fields: [forum_question_id], references: [id])
 
   technologies_tag_id String
   technologies_tag    technologies_tag @relation(fields: [technologies_tag_id], references: [id])
 
-  @@id([question_id, technologies_tag_id])
+  @@id([forum_question_id, technologies_tag_id])
 }
 
 model technologies_tag {

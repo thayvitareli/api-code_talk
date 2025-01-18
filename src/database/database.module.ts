@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { UserRepository } from './repositories/user.repository';
 import { PrismaService } from './prisma/prisma.service';
-import { SubscribeChatRoomRepository } from './repositories/subscribe-chat-room.repository';
 import { ChatRoomRepository } from './repositories/chat-room.repository';
 import { MessageRepository } from './repositories/message.repository';
+import { UserChatRoomRepository } from './repositories/subscribe-chat-room.repository';
 
 @Module({
   exports: [
     UserRepository,
-    SubscribeChatRoomRepository,
+    UserChatRoomRepository,
     ChatRoomRepository,
     MessageRepository,
   ],
   providers: [
     PrismaService,
     UserRepository,
-    SubscribeChatRoomRepository,
+    UserChatRoomRepository,
     ChatRoomRepository,
     MessageRepository,
   ],

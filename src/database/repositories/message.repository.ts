@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { message, Prisma } from '@prisma/client';
+import { messages, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class MessageRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.messageCreateInput): Promise<message> {
-    return this.prisma.message.create({
+  async create(data: Prisma.messagesCreateInput): Promise<messages> {
+    return this.prisma.messages.create({
       data,
     });
   }
 
-  async findMany({where, select}:{where?: Prisma.messageWhereInput, select: Prisma.messageSelect}): Promise<message[]> {
-    return this.prisma.message.findMany({
+  async findMany({where, select}:{where?: Prisma.messagesWhereInput, select: Prisma.messagesSelect}): Promise<messages[]> {
+    return this.prisma.messages.findMany({
       where,
       select
     });
