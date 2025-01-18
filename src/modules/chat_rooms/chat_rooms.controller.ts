@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
-import { ChatRoomService } from './chat_room.service';
+import { ChatRoomService } from './chat_rooms.service';
 import CreateChatRoom from './dto/create-chat-room.dto';
 
 import FindManyChatRoomDto from './dto/find-many.dto';
