@@ -4,6 +4,8 @@ import { PrismaService } from './prisma/prisma.service';
 import { ChatRoomRepository } from './repositories/chat-room.repository';
 import { MessageRepository } from './repositories/message.repository';
 import { UserChatRoomRepository } from './repositories/subscribe-chat-room.repository';
+import { ForumQuestionRepository } from './repositories/forum-question.repository';
+import { CommentRepository } from './repositories/comments.repository';
 
 @Module({
   exports: [
@@ -11,6 +13,8 @@ import { UserChatRoomRepository } from './repositories/subscribe-chat-room.repos
     UserChatRoomRepository,
     ChatRoomRepository,
     MessageRepository,
+    ForumQuestionRepository,
+    CommentRepository,
   ],
   providers: [
     PrismaService,
@@ -18,6 +22,8 @@ import { UserChatRoomRepository } from './repositories/subscribe-chat-room.repos
     UserChatRoomRepository,
     ChatRoomRepository,
     MessageRepository,
+    ForumQuestionRepository,
+    CommentRepository
   ],
 })
 export class DatabaseModule {}
