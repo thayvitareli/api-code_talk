@@ -99,7 +99,7 @@ export class ChatRoomService {
         return {
           ...room,
           //@ts-ignore
-          totalSubscribers: room.user_chat_room_subscribe?.length,
+          totalSubscribers: room.users_chat_rooms?.length,
         };
       }),
     ]);
@@ -111,6 +111,13 @@ export class ChatRoomService {
     { search, skip, take }: FindManyChatRoomDto,
     userId: string,
   ) {
+    let select: Prisma.chat_roomsSelect = {
+      id: true,
+      title: true,
+      users_chat_rooms: true,
+      created_at: true,
+    };
+
     let where: Prisma.chat_roomsWhereInput = {
       users_chat_rooms: {
         some: {
@@ -125,7 +132,13 @@ export class ChatRoomService {
 
     const [total, records] = await Promise.all([
       this.chatRoomRepository.total(where),
-      this.chatRoomRepository.findMany({ where, skip, take }),
+      (await this.chatRoomRepository.findMany({ where, skip, take, select })).map((room) => {
+        return {
+          ...room,
+          //@ts-ignore
+          totalSubscribers: room.users_chat_rooms?.length,
+        };
+      }),,
     ]);
 
     return { total, records };
