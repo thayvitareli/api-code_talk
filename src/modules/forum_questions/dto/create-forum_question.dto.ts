@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength } from "class-validator"
+import { IsArray, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator"
 
 export class CreateForumQuestionDto {
     @IsString()
@@ -10,5 +10,11 @@ export class CreateForumQuestionDto {
     @IsNotEmpty()
     content: string
 
+    
+    @IsOptional()
+    @IsArray()
+    tagIds: string[]
+
+    
     userId: string;
 }

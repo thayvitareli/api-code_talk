@@ -13,12 +13,17 @@ export class ForumQuestionsService {
     private readonly commentRepository: CommentRepository
   ){}
   
-  async create({ content, title,  userId}: CreateForumQuestionDto) {
+  async create({ content, title,tagIds,  userId}: CreateForumQuestionDto) {
+  
     return await this.forumQuestionRepository.create({
       content,
       title,
-      user: { connect: {id: userId}}
-      
+      user: { connect: {id: userId}},
+      question_technologies_tags: {
+        create: tagIds?.map(id => ({
+          technologies_tag: { connect: { id }}
+        }))
+      }
     });
   }
 

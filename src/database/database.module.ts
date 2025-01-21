@@ -6,6 +6,7 @@ import { MessageRepository } from './repositories/message.repository';
 import { UserChatRoomRepository } from './repositories/subscribe-chat-room.repository';
 import { ForumQuestionRepository } from './repositories/forum-question.repository';
 import { CommentRepository } from './repositories/comments.repository';
+import { TechnologyTagRepository } from './repositories/technology-tag.repository';
 
 @Module({
   exports: [
@@ -15,6 +16,7 @@ import { CommentRepository } from './repositories/comments.repository';
     MessageRepository,
     ForumQuestionRepository,
     CommentRepository,
+    TechnologyTagRepository,
   ],
   providers: [
     PrismaService,
@@ -23,7 +25,8 @@ import { CommentRepository } from './repositories/comments.repository';
     ChatRoomRepository,
     MessageRepository,
     ForumQuestionRepository,
-    CommentRepository
+    CommentRepository,
+    TechnologyTagRepository
   ],
 })
 export class DatabaseModule {}
