@@ -14,12 +14,12 @@ datasource db {
 }
 
 model users {
-  id          String @id @default(uuid())
-  email       String @unique @db.VarChar(255)
-  password    String @db.VarChar(100)
-  name        String @db.VarChar(100)
-  git_user_id Int?   @unique
-  privilege   Int    @default(2) @db.TinyInt()
+  id          String  @id @default(uuid())
+  email       String  @unique @db.VarChar(255)
+  password    String  @db.VarChar(100)
+  name        String  @db.VarChar(100)
+  git_user_id String? @unique
+  privilege   Int     @default(2) @db.TinyInt()
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

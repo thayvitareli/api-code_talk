@@ -17,4 +17,14 @@ export class UserRepository {
       where,
     });
   }
+
+  async update(
+    where: Prisma.usersWhereUniqueInput,
+    data: Prisma.usersUpdateInput,
+  ): Promise<users> {
+    return this.prisma.users.update({
+      where,
+      data,
+    });
+  }
 }

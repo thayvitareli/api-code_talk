@@ -34,4 +34,10 @@ export class AuthService {
       access_token: this.jwtService.sign({ userId: user.id }),
     };
   }
+
+  async gitHubCallback(user) {
+    return {
+      access_token: this.jwtService.sign({ userId: user.id }),
+    };
+  }
 }

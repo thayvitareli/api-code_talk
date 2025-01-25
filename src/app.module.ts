@@ -9,7 +9,14 @@ import { ForumQuestionsModule } from './modules/forum_questions/forum_questions.
 import { TechnologiesTagModule } from './modules/technologies-tag/technologies-tag.module';
 
 @Module({
-  imports: [UsersModule, DatabaseModule, AuthModule, ChatRoomsModule, ForumQuestionsModule, TechnologiesTagModule],
+  imports: [
+    UsersModule,
+    DatabaseModule,
+    AuthModule,
+    ChatRoomsModule,
+    ForumQuestionsModule,
+    TechnologiesTagModule,
+  ],
   controllers: [],
   providers: [
     {
