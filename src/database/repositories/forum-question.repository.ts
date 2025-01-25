@@ -6,7 +6,9 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ForumQuestionRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.forum_questionsCreateInput): Promise<forum_questions> {
+  async create(
+    data: Prisma.forum_questionsCreateInput,
+  ): Promise<forum_questions> {
     return this.prisma.forum_questions.create({
       data,
     });
@@ -31,10 +33,13 @@ export class ForumQuestionRepository {
     });
   }
 
-  async findOne(where: Prisma.forum_questionsWhereInput, select?: Prisma.forum_questionsSelect): Promise<forum_questions> {
+  async findOne(
+    where: Prisma.forum_questionsWhereInput,
+    select?: Prisma.forum_questionsSelect,
+  ): Promise<forum_questions> {
     return this.prisma.forum_questions.findFirst({
       where,
-      select
+      select,
     });
   }
 

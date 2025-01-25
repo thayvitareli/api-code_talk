@@ -12,7 +12,6 @@ export class FindManySharedDto {
   @IsNumber()
   take?: number;
 
-
   @IsOptional()
   @IsString()
   search?: string;

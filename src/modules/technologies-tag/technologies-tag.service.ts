@@ -6,17 +6,15 @@ import { TechnologyTagRepository } from 'src/database/repositories/technology-ta
 
 @Injectable()
 export class TechnologiesTagService {
+  constructor(
+    private readonly technologyTagRepository: TechnologyTagRepository,
+  ) {}
 
-  constructor(private readonly technologyTagRepository:TechnologyTagRepository){}
- 
   async findAll() {
-   
-
     const [total, records] = await Promise.all([
       this.technologyTagRepository.total({}),
-      this.technologyTagRepository.findMany({})
-    ])
-    return {total, records};
+      this.technologyTagRepository.findMany({}),
+    ]);
+    return { total, records };
   }
-
 }

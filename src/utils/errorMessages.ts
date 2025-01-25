@@ -2,5 +2,5 @@ export default {
   emailInUse: 'O e-mail informado já possui cadastro.',
   loginFailed: 'E-mail e/ou senha inválidos.',
   roomNotFound: 'Chat não encontrado.',
-  forumNotFount: 'Fórum não encontrado.'
+  forumNotFount: 'Fórum não encontrado.',
 };

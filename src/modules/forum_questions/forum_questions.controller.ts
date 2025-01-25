@@ -12,10 +12,10 @@ export class ForumQuestionsController {
   create(@Body() createForumQuestionDto: CreateForumQuestionDto, @Req() req) {
     return this.forumQuestionsService.create({
       ...createForumQuestionDto,
-      userId: req.user.userId
+      userId: req.user.userId,
     });
   }
-  
+
   @Get()
   findMany(@Query() query: FindManySharedDto) {
     return this.forumQuestionsService.findMany(query);
@@ -26,18 +26,23 @@ export class ForumQuestionsController {
     return this.forumQuestionsService.findOne(id);
   }
 
-
   @Post(':id/comments')
-  postComment(@Param('id') id: string, @Body() createForumQuestionDto: CreateCommentForumQuestionsDto, @Req() req) {
+  postComment(
+    @Param('id') id: string,
+    @Body() createForumQuestionDto: CreateCommentForumQuestionsDto,
+    @Req() req,
+  ) {
     return this.forumQuestionsService.postComment(id, {
       ...createForumQuestionDto,
-      userId: req.user.userId
+      userId: req.user.userId,
     });
   }
 
   @Get(':id/comments')
-  getComments(@Param() { id }: { id: string }, @Query() findMany: FindManySharedDto) {
-    return this.forumQuestionsService.getComments(id,findMany);
+  getComments(
+    @Param() { id }: { id: string },
+    @Query() findMany: FindManySharedDto,
+  ) {
+    return this.forumQuestionsService.getComments(id, findMany);
   }
-
 }

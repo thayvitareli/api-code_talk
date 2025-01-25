@@ -11,7 +11,9 @@ describe('TechnologiesTagController', () => {
       providers: [TechnologiesTagService],
     }).compile();
 
-    controller = module.get<TechnologiesTagController>(TechnologiesTagController);
+    controller = module.get<TechnologiesTagController>(
+      TechnologiesTagController,
+    );
   });
 
   it('should be defined', () => {

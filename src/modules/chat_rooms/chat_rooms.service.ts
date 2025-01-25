@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ChatRoomRepository } from 'src/database/repositories/chat-room.repository';
-import {  UserChatRoomRepository } from 'src/database/repositories/subscribe-chat-room.repository';
+import { UserChatRoomRepository } from 'src/database/repositories/subscribe-chat-room.repository';
 import errorMessages from 'src/utils/errorMessages';
 import CreateChatRoom from './dto/create-chat-room.dto';
 import { UserRepository } from 'src/database/repositories/user.repository';
@@ -20,7 +20,7 @@ export class ChatRoomService {
     private readonly chatRoomRepository: ChatRoomRepository,
     private readonly userChatRoomRepository: UserChatRoomRepository,
     private readonly userRepository: UserRepository,
-    private readonly messageRepository: MessageRepository
+    private readonly messageRepository: MessageRepository,
   ) {}
 
   async subscribe(chat_room_id: string, userId: string) {
@@ -50,7 +50,7 @@ export class ChatRoomService {
       },
     });
 
-    return {message: 'Sucesso na operação'};
+    return { message: 'Sucesso na operação' };
   }
 
   async create({ title }: CreateChatRoom, userId: string) {
@@ -133,51 +133,52 @@ export class ChatRoomService {
 
     const [total, records] = await Promise.all([
       this.chatRoomRepository.total(where),
-      (await this.chatRoomRepository.findMany({ where, skip, take, select })).map((room) => {
+      (
+        await this.chatRoomRepository.findMany({ where, skip, take, select })
+      ).map((room) => {
         return {
           ...room,
           //@ts-ignore
           totalSubscribers: room.users_chat_rooms?.length,
         };
-      }),,
+      }),
+      ,
     ]);
 
     return { total, records };
   }
 
-  async getMessages(roomId:string, userId: string){
-      const select: Prisma.messagesSelect = {
-        id:true,
-        chat_room_id:true,
-        content:true,
-        sent_by_user_id: true,
-        user: {
-          select: {
-            name: true,
-          }
+  async getMessages(roomId: string, userId: string) {
+    const select: Prisma.messagesSelect = {
+      id: true,
+      chat_room_id: true,
+      content: true,
+      sent_by_user_id: true,
+      user: {
+        select: {
+          name: true,
         },
-        created_at:true,
-      }
-      const room = await this.chatRoomRepository.findOne({
-        id: roomId,
-        users_chat_rooms: {
-          some: {
-            user_id: userId,
-            chat_room_id: roomId
-          }
-        }
-      },)
-
-      if(!room) throw new NotFoundException(errorMessages.roomNotFound)
-
-      return await this.messageRepository.findMany({
-        where: {
+      },
+      created_at: true,
+    };
+    const room = await this.chatRoomRepository.findOne({
+      id: roomId,
+      users_chat_rooms: {
+        some: {
+          user_id: userId,
           chat_room_id: roomId,
         },
-        select,
-      })
+      },
+    });
 
-      
+    if (!room) throw new NotFoundException(errorMessages.roomNotFound);
+
+    return await this.messageRepository.findMany({
+      where: {
+        chat_room_id: roomId,
+      },
+      select,
+    });
   }
 
   async findOne(chat_room_id: string) {
@@ -190,4 +191,3 @@ export class ChatRoomService {
     return room;
   }
 }
-

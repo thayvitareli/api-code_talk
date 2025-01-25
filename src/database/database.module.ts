@@ -26,7 +26,7 @@ import { TechnologyTagRepository } from './repositories/technology-tag.repositor
     MessageRepository,
     ForumQuestionRepository,
     CommentRepository,
-    TechnologyTagRepository
+    TechnologyTagRepository,
   ],
 })
 export class DatabaseModule {}
