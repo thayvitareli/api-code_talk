@@ -12,10 +12,17 @@ export class CommentRepository {
     });
   }
 
-  async findMany({where, select}:{where?: Prisma.commentsWhereInput, select: Prisma.commentsSelect}): Promise<comments[]> {
+  async findMany({where, select}:{where?: Prisma.commentsWhereInput, select?: Prisma.commentsSelect}): Promise<comments[]> {
     return this.prisma.comments.findMany({
       where,
       select
+    });
+  }
+
+  
+  async total(where: Prisma.commentsWhereInput): Promise<number> {
+    return this.prisma.comments.count({
+      where,
     });
   }
 }

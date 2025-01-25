@@ -3,6 +3,7 @@ import { ChatRoomService } from './chat_rooms.service';
 import CreateChatRoom from './dto/create-chat-room.dto';
 
 import FindManyChatRoomDto from './dto/find-many.dto';
+import { FindManySharedDto } from 'src/utils/dto/find-many.dto';
 
 @Controller('chat-room')
 export class ChatRoomController {
@@ -21,6 +22,7 @@ export class ChatRoomController {
 
   @Get()
   List(@Query() findMany: FindManyChatRoomDto, @Req() req) {
+    console.log(findMany)
     return this.chatRoomService.findAll(findMany, req.user?.userId);
   }
 
@@ -44,5 +46,7 @@ export class ChatRoomController {
   unsubscribe(@Param() { id }: { id: string }, @Req() req) {
     return this.chatRoomService.unSubscribe(id, req.user.userId);
   }
+
+ 
   
 }

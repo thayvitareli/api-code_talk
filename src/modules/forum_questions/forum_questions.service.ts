@@ -82,6 +82,11 @@ export class ForumQuestionsService {
           name:true,
         }
       },
+      question_technologies_tags: {
+        select: {
+          technologies_tag: true,
+        }
+      },
       comments: true,
      
     }
@@ -93,13 +98,51 @@ export class ForumQuestionsService {
       ]
      }
 
+     
+
     const [total, records]= await Promise.all([
       this.forumQuestionRepository.total(where),
-      this.forumQuestionRepository.findMany({ where, skip, take, select}),
+      (await (this.forumQuestionRepository.findMany({ where, skip, take, select}))).map(question => {
+        //@ts-ignore
+        if(question?.question_technologies_tags?.length > 0){
+          //@ts-ignore
+          question.question_technologies_tags = question.question_technologies_tags?.map(obj => {
+            return { ...obj.technologies_tag}
+          })
+        }
+        return {...question}
+      }),
     ])
 
     return {total, records}
   }
+
+    async getComments(id:string, {skip, take}: FindManySharedDto){
+      const where: Prisma.commentsWhereInput = {
+        forum_question_id: id,
+      }
+
+      const select: Prisma.commentsSelect = {
+        id: true,
+        content:true,
+        created_at: true,
+        user: {
+          select: {
+            name:true,
+          }
+        }
+      }
+      
+      const [total, records] = await Promise.all([
+        this.commentRepository.total(where),
+        this.commentRepository.findMany({where, select})
+      ])
+
+      return {total, records}
+  
+    }
+  
+  
 
   
 }

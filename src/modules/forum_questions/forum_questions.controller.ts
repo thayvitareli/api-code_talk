@@ -35,4 +35,9 @@ export class ForumQuestionsController {
     });
   }
 
+  @Get(':id/comments')
+  getComments(@Param() { id }: { id: string }, @Query() findMany: FindManySharedDto) {
+    return this.forumQuestionsService.getComments(id,findMany);
+  }
+
 }

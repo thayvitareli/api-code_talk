@@ -12,6 +12,7 @@ import userPvsCommon from 'src/utils/common/user-pvs.common';
 import FindManyChatRoomDto from './dto/find-many.dto';
 import { Prisma } from '@prisma/client';
 import { MessageRepository } from 'src/database/repositories/message.repository';
+import { FindManySharedDto } from 'src/utils/dto/find-many.dto';
 
 @Injectable()
 export class ChatRoomService {
