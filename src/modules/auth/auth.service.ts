@@ -35,7 +35,8 @@ export class AuthService {
     };
   }
 
-  async gitHubCallback(user) {
+  async gitHubCallback(profile) {
+    const user = await this.userRepository.findOne({ git_user_id: profile.id})
     return {
       access_token: this.jwtService.sign({ userId: user.id }),
     };
