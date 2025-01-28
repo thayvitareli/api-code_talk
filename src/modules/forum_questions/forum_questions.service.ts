@@ -15,6 +15,7 @@ export class ForumQuestionsService {
   ) {}
 
   async create({ content, title, tagIds, userId }: CreateForumQuestionDto) {
+    console.log(userId)
     return await this.forumQuestionRepository.create({
       content,
       title,

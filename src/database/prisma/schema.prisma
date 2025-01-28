@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,7 +19,7 @@ model users {
   password    String  @db.VarChar(100)
   name        String  @db.VarChar(100)
   git_user_id String? @unique
-  privilege   Int     @default(2) @db.TinyInt()
+  privilege   Int     @default(2) @db.SmallInt()
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
