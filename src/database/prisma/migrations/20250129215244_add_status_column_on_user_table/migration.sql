@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "users" ADD COLUMN     "status" SMALLINT NOT NULL DEFAULT 1;

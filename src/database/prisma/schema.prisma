@@ -20,6 +20,7 @@ model users {
   name        String  @db.VarChar(100)
   git_user_id String? @unique
   privilege   Int     @default(2) @db.SmallInt()
+  status      Int     @default(1) @db.SmallInt()
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
