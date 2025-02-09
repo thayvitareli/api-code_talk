@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, Query} from '@nestjs/common';
 import { ForumQuestionsService } from './forum_questions.service';
 import { CreateForumQuestionDto } from './dto/create-forum_question.dto';
 import { CreateCommentForumQuestionsDto } from './dto/create-comment-forum_question.dto';
@@ -17,9 +17,13 @@ export class ForumQuestionsController {
   }
 
   @Get()
-  findMany(@Query() query: FindManySharedDto) {
-    return this.forumQuestionsService.findMany(query);
+  findMany(@Query() query: FindManySharedDto,@Req() req) {
+    return this.forumQuestionsService.findMany({
+      ...query,
+      userId: req.user.userId,});
   }
+
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

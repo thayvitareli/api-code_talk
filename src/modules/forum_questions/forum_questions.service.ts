@@ -6,6 +6,7 @@ import errorMessages from 'src/utils/errorMessages';
 import { CommentRepository } from 'src/database/repositories/comments.repository';
 import { Prisma } from '@prisma/client';
 import { FindManySharedDto } from 'src/utils/dto/find-many.dto';
+import { use } from 'passport';
 
 @Injectable()
 export class ForumQuestionsService {
@@ -72,8 +73,9 @@ export class ForumQuestionsService {
     return forum;
   }
 
-  async findMany({ skip, take, search }: FindManySharedDto) {
+  async findMany({ skip, take, search , filterByUserId, userId}: FindManySharedDto) {
     let where: Prisma.forum_questionsWhereInput = {};
+    console.log(filterByUserId, userId)
 
     const select: Prisma.forum_questionsSelect = {
       id: true,
@@ -99,6 +101,10 @@ export class ForumQuestionsService {
           { content: { contains: search } },
         ],
       };
+
+    if(filterByUserId && userId){
+        where = {...where, user_id: userId}
+    }
 
     const [total, records] = await Promise.all([
       this.forumQuestionRepository.total(where),
