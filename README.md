@@ -13,14 +13,17 @@ CodeTalk é um projeto que nasceu como um estudo sobre o uso de WebSockets, com 
 Fornecer uma base funcional para um sistema de comunicação em tempo real entre usuários.
 
 
-🔥 Funcionalidades da Versão 1.0
+🔥 Funcionalidades da Versão 1.1
 
 ✅ Conexão em tempo real: Implementação básica de comunicação via WebSockets, onde os chats são organizados em salas com um tópico. Cada sala representa um tópico (ex.: React, Java) para organização das conversas.
  
 ✅ Sistema de login e autenticação: Implementado usando JWT para segurança nas comunicações.
 
+✅ Sistema de autenticação: Implementado oAuth com GitHub.
 
 ✅ Inscrição em salas: Usuários podem se inscrever em uma ou mais salas para participar de discussões específicas.
+
+✅ Fórum: Usuários enviar suas dúvidas no fórum, listar os posts enviados e realizar comentários.
 
 
 
