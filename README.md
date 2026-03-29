@@ -1,5 +1,49 @@
 🚀 CodeTalk
 
+Version 1.0 - First Version
+
+
+📚 Introduction
+
+CodeTalk is a project that was born as a study on the use of WebSockets, with the objective of better understanding its implementation and application in real-time communication. From this initial study, the idea evolved into a more structured project, focused on facilitating interaction and information sharing between developers and students.
+
+
+🎯 Objective
+
+To provide a functional base for a real-time communication system between users.
+
+
+🔥 Features of Version 1.1
+
+✅ Real-time connection: Basic implementation of communication via WebSockets, where chats are organized into rooms with a topic. Each room represents a topic (e.g., React, Java) for organizing conversations.
+ 
+✅ Login and authentication system: Implemented using JWT for secure communications.
+
+✅ Authentication system: Implemented oAuth with GitHub.
+
+✅ Room subscription: Users can subscribe to one or more rooms to participate in specific discussions.
+
+✅ Forum: Users can post their questions in the forum, list submitted posts, and make comments.
+
+
+
+💻 Technologies Used
+
+Back-end: NestJS, PrismaORM, and MYSQL
+
+Front-end: React using NextJS
+
+Communication: WebSockets using socket.io
+
+
+📌 Conclusion
+
+This is just the first iteration of CodeTalk, a project that reflects constant learning. My goal is to turn it into a robust platform for real-time communication. Feedback is always welcome! 🙌
+
+---
+
+🚀 CodeTalk
+
 Versão 1.0 - Primeira Versão
 
 
